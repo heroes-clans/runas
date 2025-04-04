@@ -8,6 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CATÁLOGO DE RUNAS</title>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Añade esto justo antes del cierre de </head> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@10.15.5/dist/motion.min.js"></script>
+
+    
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         
@@ -1223,6 +1229,51 @@
     border-radius: 4px;
 }
 
+/* Estilo para texto con efecto de lava */
+.lava-text {
+    font-weight: bold;
+    background-size: 400% auto;
+    animation: lavaFlow 8s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    display: inline-block;
+    text-transform: uppercase;
+    position: relative;
+    padding: 0 10px;
+}
+
+/* Animación para el efecto de flujo de lava */
+@keyframes lavaFlow {
+    0% { background-position: 0% center; }
+    100% { background-position: 400% center; }
+}
+
+/* Gradientes para cada tipo de runa */
+.lava-blue {
+    background-image: linear-gradient(to right, 
+        #4299e1, #63b3ed, #90cdf4, #63b3ed, #4299e1, #3182ce, #2b6cb0, #3182ce
+    );
+    text-shadow: 0 2px 10px rgba(66, 153, 225, 0.5);
+}
+
+.lava-red {
+    background-image: linear-gradient(to right, 
+        #f56565, #fc8181, #feb2b2, #fc8181, #f56565, #e53e3e, #c53030, #e53e3e
+    );
+    text-shadow: 0 2px 10px rgba(245, 101, 101, 0.5);
+}
+
+.lava-yellow {
+    background-image: linear-gradient(to right, 
+        #ecc94b, #f6e05e, #faf089, #f6e05e, #ecc94b, #d69e2e, #b7791f, #d69e2e
+    );
+    text-shadow: 0 2px 10px rgba(236, 201, 75, 0.5);
+}
+
 
 
 
@@ -1267,6 +1318,9 @@
             margin: 1rem 0;
             text-align: center;
         }
+        
+        
+      
         
     .inventory-slot:hover {
         transform: translateY(-5px);
@@ -1389,13 +1443,644 @@
   background-color: #4a49b3;
 }
 
+<!-- ESTILOS DE ANIMACIÓN NUEVOS -->
+/* Añade esto en tu bloque de <style> principal */
+.rune-card {
+    transform-style: preserve-3d;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.rune-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(215deg, transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%);
+    background-size: 200% 200%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease, background-position 0.5s ease;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.rune-card:hover::before {
+    opacity: 1;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Añade esto a tu bloque de estilos principal */
+.progress-bar {
+    width: 100%;
+    background: linear-gradient(90deg, #94a3b8, #3b82f6, #10b981, #f59e0b, #ef4444);
+    background-size: 500% 100%;
+    height: 0%;
+    transition: height 0.3s ease;
+    box-shadow: 0 0 15px rgba(93, 92, 222, 0.7);
+    animation: gradientFlow 15s linear infinite;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Añade esto a tu bloque de estilos principal */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.status-orb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.available-orb {
+  background: #4CAF50;
+  box-shadow: 0 0 8px #4CAF50;
+  animation: pulseGreen 2s infinite;
+}
+
+.unavailable-orb {
+  background: #F44336;
+  box-shadow: 0 0 8px #F44336;
+  animation: pulseRed 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { box-shadow: 0 0 8px rgba(76, 175, 80, 0.6); }
+  50% { box-shadow: 0 0 16px rgba(76, 175, 80, 0.8); }
+  100% { box-shadow: 0 0 8px rgba(76, 175, 80, 0.6); }
+}
+
+@keyframes pulseRed {
+  0% { box-shadow: 0 0 8px rgba(244, 67, 54, 0.6); }
+  50% { box-shadow: 0 0 16px rgba(244, 67, 54, 0.8); }
+  100% { box-shadow: 0 0 8px rgba(244, 67, 54, 0.6); }
+}
+
+.available, .unavailable {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.available {
+  color: #4CAF50;
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.unavailable {
+  color: #F44336;
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.store-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: linear-gradient(45deg, #5D5CDE, #7A79FF);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(93, 92, 222, 0.3);
+}
+
+.store-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(93, 92, 222, 0.5);
+}
+
+.store-button:active {
+  transform: translateY(0);
+}
+
+.store-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #7A79FF, #5D5CDE);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.store-button:hover::before {
+  opacity: 1;
+}
+
+/* Añade esto a tu bloque de estilos principal */
+.progress-bar {
+    width: 100%;
+    background: linear-gradient(90deg, #94a3b8, #3b82f6, #10b981, #f59e0b, #ef4444);
+    background-size: 500% 100%;
+    height: 0%;
+    transition: height 0.3s ease;
+    box-shadow: 0 0 15px rgba(93, 92, 222, 0.7);
+    animation: gradientFlow 15s linear infinite;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 </style>
 
+<style>
+  /* ESTILOS MEJORADOS PARA EL OVERLAY DE MANTENIMIENTO */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap');
 
+/* Estilos base del overlay */
+#maintenance-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.blur-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(12px);
+    background-color: rgba(10, 10, 42, 0.85);
+    z-index: 0;
+}
+
+.maintenance-content {
+    max-width: 90%;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Partículas y malla interactiva */
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* EFECTO LAVA MEJORADO PARA EL TEXTO */
+.lava-text-container {
+    position: relative;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    z-index: 3;
+}
+
+.lava-text {
+    position: relative;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 9vw, 4.2rem);
+    line-height: 1.1;
+    margin: 0;
+    padding: 0.5rem;
+    background: none;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 2px 10px rgba(255, 60, 0, 0.6));
+    display: inline-block;
+    transform-style: preserve-3d;
+    perspective: 500px;
+}
+
+/* Fondo de lava animado para el texto */
+/* Reemplaza la parte del .lava-text::before con esto */
+.lava-text::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(
+            45deg,
+            #ff3c00, 
+            #ff7a00, 
+            #ffae00, 
+            #ffce00, 
+            #ff7a00, 
+            #ff3c00
+        );
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    z-index: -1;
+    animation: gradientFlow 8s linear infinite;
+    filter: contrast(1.5) brightness(1.3);
+}
+
+
+/* Añade esta animación nueva justo después de las animaciones existentes */
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+/* Textura fluida para el interior de las letras */
+.lava-text::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch' result='noise'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0' result='colorNoise'/%3E%3CfeComposite operator='in' in='colorNoise' in2='SourceGraphic' result='monoNoise'/%3E%3CfeBlend in='SourceGraphic' in2='monoNoise' mode='multiply' result='finalNoise'/%3E%3CfeGaussianBlur in='finalNoise' stdDeviation='0.5' result='blurredNoise'/%3E%3CfeColorMatrix type='hueRotate' values='0' result='huedNoise'%3E%3Canimate attributeName='values' from='0' to='360' dur='20s' repeatCount='indefinite'/%3E%3C/feColorMatrix%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0' result='brightNoise'%3E%3Canimate attributeName='values' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0; 2 0 0 0 -0.5 0 2 0 0 -0.5 0 0 2 0 -0.5 0 0 0 1 0; 1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0' dur='10s' repeatCount='indefinite'/%3E%3C/feColorMatrix%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+    linear-gradient(
+        45deg,
+        rgba(255, 60, 0, 0.8),
+        rgba(255, 100, 0, 0.7),
+        rgba(255, 140, 0, 0.9),
+        rgba(255, 100, 0, 0.7),
+        rgba(255, 60, 0, 0.8)
+    );
+    background-size: 100% 100%, 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    z-index: -2;
+    mix-blend-mode: overlay;
+    filter: brightness(1.4) contrast(1.5);
+    animation: lavaNoiseShift 6s ease-in-out infinite alternate, lavaFlow 5s linear infinite reverse;
+}
+
+/* Animaciones para el efecto lava */
+@keyframes lavaFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes lavaNoiseShift {
+    0% { background-position: 0% 0%, 0% 50%; filter: brightness(1.2) contrast(1.3); }
+    100% { background-position: 10% 50%, 100% 50%; filter: brightness(1.5) contrast(1.7); }
+}
+
+/* MENSAJES FLOTANTES MEJORADOS */
+/* MENSAJES FLOTANTES MEJORADOS - VERSIÓN CORREGIDA */
+/* MENSAJES FLOTANTES MEJORADOS - VERSIÓN ADAPTATIVA */
+.messages-container {
+    width: 100vw;
+    height: auto; /* Cambiado de altura fija a auto */
+    min-height: 120px; /* Altura mínima */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 2rem;
+  
+    left: 0;
+    right: 0;
+    overflow: visible;
+    padding: 1rem 0;
+}
+
+.floating-message {
+    position: absolute;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.1rem, 4vw, 1.8rem);
+    color: white;
+    text-align: center;
+    opacity: 0;
+    transform: translateX(100vw);
+    filter: blur(0px);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 2rem;
+    width: 90%; /* Ancho fijo para centrar mejor */
+    max-width: 800px; /* Límite máximo de ancho */
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    user-select: none;
+    /* Eliminado white-space: nowrap */
+    transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1),
+                filter 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.floating-message.visible {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0px);
+}
+
+.floating-message.fading {
+    opacity: 0;
+    transform: translateX(-100vw);
+    filter: blur(8px);
+}
+
+/* Ajustes adicionales para mejorar responsive en pantallas muy pequeñas */
+@media (max-width: 360px) {
+    .floating-message {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        width: 95%;
+    }
+    
+    .messages-container {
+        min-height: 100px;
+    }
+}
+
+
+/* TEXTO PIXELADO MEJORADO */
+.pixel-text-container {
+    position: relative;
+    margin: 1.5rem 0;
+    z-index: 3;
+}
+
+.pixel-text {
+    font-family: 'Press Start 2P', cursive;
+    font-size: clamp(0.8rem, 4vw, 1.2rem);
+    color: white;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+    opacity: 0.9;
+    position: relative;
+    animation: pixelGlow 3s ease-in-out infinite;
+    letter-spacing: 1px;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: rotate(-2deg);
+}
+
+@keyframes pixelGlow {
+    0%, 100% { text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7), 0 0 0px rgba(255, 255, 255, 0); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+    50% { text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7), 0 0 10px rgba(255, 255, 255, 0.5); box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
+}
+
+/* EMAIL MEJORADO */
+/* EMAIL CONTAINER MEJORADO */
+.email-container {
+    margin-top: 2rem;
+    position: relative;
+    width: 90%;
+    max-width: 450px; /* Aumentado para que quepa el email */
+    z-index: 3;
+}
+
+.email-button {
+    display: flex;
+    align-items: center;
+    background: rgba(30, 30, 50, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 0.8rem;
+    color: white;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.email-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0) 100%);
+    z-index: 0;
+}
+
+.email-button:hover {
+    background: rgba(40, 40, 70, 0.9);
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.email-button:active {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.email-icon-container {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.email-icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+    animation: floatIcon 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+.email-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    position: relative;
+    z-index: 1;
+    flex-grow: 1;
+    width: calc(100% - 70px); /* Aseguramos que ocupa todo el espacio restante */
+}
+
+.email-title {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.email-address {
+    font-size: clamp(0.7rem, 3vw, 0.9rem);
+    opacity: 0.9;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes floatIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Mejora para dispositivos pequeños */
+@media (max-width: 360px) {
+    .email-container {
+        width: 95%;
+    }
+    
+    .email-button {
+        padding: 0.6rem;
+    }
+    
+    .email-icon-container {
+        width: 40px;
+        height: 40px;
+        margin-right: 0.7rem;
+    }
+    
+    .email-icon {
+        font-size: 1.4rem;
+    }
+}
+
+
+/* RESPONSIVE MEDIA QUERIES */
+@media (max-width: 768px) {
+    .lava-text {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+    
+    .floating-message {
+        font-size: clamp(1.1rem, 5vw, 1.5rem);
+    }
+    
+    .email-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .maintenance-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .messages-container {
+        height: 100px;
+    }
+    
+    .email-button {
+        padding: 0.8rem 1.2rem;
+    }
+    
+    .pixel-text {
+        font-size: clamp(0.6rem, 4vw, 0.9rem);
+    }
+}
+
+
+</style>
 
     
 </head>
 <body>
+ 
+ <!-- OVERLAY DE MANTENIMIENTO MEJORADO -->
+<div id="maintenance-overlay">
+    <!-- Malla interactiva -->
+    <div id="particles-js" class="particles-container"></div>
+    
+    <!-- Capa de blur mejorada -->
+    <div class="blur-layer"></div>
+    
+    <div class="maintenance-content">
+        <!-- Contenedor del texto de lava mejorado -->
+        <div class="lava-text-container">
+            <div class="lava-background"></div>
+            <h1 class="lava-text" data-text="ESTAMOS HACIENDO REFORMAS GUAPAS">ESTAMOS HACIENDO REFORMAS GUAPAS</h1>
+        </div>
+        
+        <!-- Contenedor de mensajes mejorado -->
+        <div class="messages-container">
+            <div class="floating-message"></div>
+        </div>
+        
+        <!-- Texto con animación pixelada mejorada -->
+        <div class="pixel-text-container">
+            <p class="pixel-text">att: MortALEdo y ALEXtón</p>
+        </div>
+        
+        <!-- Email mejorado con espacio para el texto completo -->
+<div class="email-container">
+    <a href="mailto:heroesclanson@gmail.com" class="email-button">
+        <div class="email-icon-container">
+            <span class="email-icon">✉️</span>
+        </div>
+        <div class="email-text">
+            <span class="email-title">¿Tienes ideas?</span>
+            <span class="email-address">heroesclanson@gmail.com</span>
+        </div>
+    </a>
+</div>
+
+            </a>
+        </div>
+    </div>
+</div>
+        <!-- AQUÍ TERMINA EL OVERLAY BLURRED-->
+
     
     <div class="progress-bar-container">
     <div class="progress-bar"></div>
@@ -1423,16 +2108,79 @@
     </div>
 </div>
 
+
           
 </section>
     </div>
-  
+<section class="py-20 px-4 relative fade-in-section">
+    <div class="container mx-auto max-w-4xl">
+        <h2 class="text-4xl text-center mb-16 title-glow animate-fade-down delay-400">¿RUNAS?</h2>
+        
+        <!-- Introducción -->
+        <div class="bg-opacity-10 bg-white backdrop-blur-sm rounded-lg p-8 mb-12 transform hover:scale-[1.02] transition-transform duration-300 animate-fade-up delay-400 fade-in-bottom">
+    <p class="text-lg leading-relaxed mb-6 fade-in-left">
+        Son "<strong>Habilidades</strong>" fijas que otorgan <strong>ventajas</strong> en las batallas a los clanes.
+    </p>
+    <p class="text-lg leading-relaxed mb-6 fade-in-left">
+        Los clanes las pueden comprar al principio del mes por <span class="inline-flex items-center"><img src="https://i.postimg.cc/Dw8cS0hh/Photo-Room-20250210-170758.png" alt="coin" class="w-4 h-4 mr-1"> <strong>Heroes Coins</strong></span>
+    </p>
+    <p class="text-lg leading-relaxed fade-in-left">
+        Cada clan puede tener 5 Runas a la vez, así que lo más importante es saber cómo combinarlas para tener la mayor ventaja posible.
+    </p>
+</div>
 
 
+        <!-- Tipos de Runas -->
+        <div class="grid md:grid-cols-3 gap-8 fade-in-left">
+            <!-- Runas Azules -->
+            <div class="bg-blue-900 bg-opacity-20 rounded-lg p-6 transform hover:scale-[1.02] transition-transform duration-300 border border-blue-500/30">
+                <div class="flex items-center mb-4">
+                    <div class="w-8 h-8 rounded-full bg-blue-500 mr-3"></div>
+                    <h3 class="text-xl text-blue-400">Runas Azules</h3>
+                </div>
+                <p class="text-gray-300 mb-4">Son runas que dan puntos normales de batallas.</p>
+                <div class="bg-black bg-opacity-30 rounded p-4">
+                    <p class="text-sm text-gray-400 mb-2">Ejemplo:</p>
+                    <p class="text-white mb-2">Super Runner</p>
+                    <p class="text-sm text-gray-300 mb-3">Si una persona del clan llega a 185k de pasos en un día +10 Puntos, si no se logra -10 Puntos</p>
+                    <p class="coins-display">5 H.COINS</p>
+                </div>
+            </div>
+            
+            <!-- RUNAS -->
 
+            <!-- Runas Rojas -->
+            <div class="bg-red-900 bg-opacity-20 rounded-lg p-6 transform hover:scale-[1.02] transition-transform duration-300 border border-red-500/30 fade-in-left">
+                <div class="flex items-center mb-4 ">
+                    <div class="w-8 h-8 rounded-full bg-red-500 mr-3"></div>
+                    <h3 class="text-xl text-red-400">Runas Rojas</h3>
+                </div>
+                <p class="text-gray-300 mb-4">Runas que otorgan multiplicador (sumable)</p>
+                <div class="bg-black bg-opacity-30 rounded p-4">
+                    <p class="text-sm text-gray-400 mb-2">Ejemplo:</p>
+                    <p class="text-white mb-2">Hiper Monks Duo</p>
+                    <p class="text-sm text-gray-300 mb-3">Si dos personas del clan llegan a 5h de meditar en un día +2 Multi, si no se logra no se ganan puntos.</p>
+                    <p class="coins-display">10 H.COINS</p>
+                </div>
+            </div>
 
-
-
+            <!-- Runas Amarillas -->
+            <div class="bg-yellow-900 bg-opacity-20 rounded-lg p-6 transform hover:scale-[1.02] transition-transform duration-300 border border-yellow-500/30 fade-in-left">
+                <div class="flex items-center mb-4">
+                    <div class="w-8 h-8 rounded-full bg-yellow-500 mr-3"></div>
+                    <h3 class="text-xl text-yellow-400">Runas Amarillas</h3>
+                </div>
+                <p class="text-gray-300 mb-4">Son Runas que otorgan Heroes Coins</p>
+                <div class="bg-black bg-opacity-30 rounded p-4">
+                    <p class="text-sm text-gray-400 mb-2">Ejemplo:</p>
+                    <p class="text-white mb-2">A gift to the future number 1</p>
+                    <p class="text-sm text-gray-300 mb-3">1 H.Coin si el top 3 o 4 superan en una batalla al top 1</p>
+                    <p class="coins-display">8 H.COINS</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
             <!-- Popup -->
@@ -1448,9 +2196,13 @@
                       
 
   <div class="availability-container">
-    <span id="availability-status" class="available"> Disponible</span>
-    <a id="store-button" href="https://heroes-clans.github.io/clans-store/" class="store-button">IR A LA TIENDA</a>
+  <div class="status-indicator">
+    <span id="availability-status" class="available">Disponible</span>
+    <span id="status-orb" class="status-orb available-orb"></span>
   </div>
+  <a id="store-button" href="https://heroes-clans.github.io/clans-store/" class="store-button">IR A LA TIENDA</a>
+</div>
+
 </div>
 
                     </div>
@@ -1484,123 +2236,140 @@
     
     
             <!-- Catálogo de Runas -->
-            <section id="catalog" class="py-20 fade-in fade-in-section">
-    <h2 class="text-2xl text-center mb-16 text-glow">RUNAS</h2>
-    
-    <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
-        <!-- Walk Master (Azul) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('WALK MASTER', 'Este Boost otorga un +10 Puntos si se supera a Battle Boss en Pasos y Correr', '3', 'https://i.postimg.cc/XJSsNrPt/Photo-Room-20250209-155538.png')">
-            <img src="https://i.postimg.cc/XJSsNrPt/Photo-Room-20250209-155538.png" alt="Walk Master" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">WALK MASTER</h4>
-            <p class="coins-display">3 H.COINS</p>
-        </div>
+<section id="catalog" class="py-20 fade-in fade-in-section">
 
-        <!-- Master of Deepwork (Azul) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('MASTER OF DEEPWORK', 'Este Boost otorga un +10 Puntos si se supera a Battle Boss en Deepwork', '3', 'https://i.postimg.cc/G2xfXD5d/Photo-Room-20250209-213612.png')">
-            <img src="https://i.postimg.cc/G2xfXD5d/Photo-Room-20250209-213612.png" alt="Master of Deepwork" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">MASTER OF DEEPWORK</h4>
-            <p class="coins-display">3 H.COINS</p>
-        </div>
+    <!-- RUNAS AZULES -->
+    <div id="blue-runes" class="mb-16">
+      <h3 class="text-xl text-center mb-8 lava-text lava-blue">RUNAS AZULES</h3>
+        <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <!-- Walk Master (Azul) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('WALK MASTER', 'Este Boost otorga un +10 Puntos si se supera a Battle Boss en Pasos y Correr', '3', 'https://i.postimg.cc/XJSsNrPt/Photo-Room-20250209-155538.png')">
+                <img src="https://i.postimg.cc/XJSsNrPt/Photo-Room-20250209-155538.png" alt="Walk Master" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">WALK MASTER</h4>
+                <p class="coins-display">3 H.COINS</p>
+            </div>
 
-        <!-- Master of Chill (Azul) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('MASTER OF CHILL', 'Este Boost otorga un +10 Puntos si se supera a Battle Boss en Meditar', '3', 'https://i.postimg.cc/mDqMrsy9/Photo-Room-20250209-215201.png')">
-            <img src="https://i.postimg.cc/mDqMrsy9/Photo-Room-20250209-215201.png" alt="Master of Chill" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">MASTER OF CHILL</h4>
-            <p class="coins-display">3 H.COINS</p>
-        </div>
+            <!-- Master of Deepwork (Azul) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('MASTER OF DEEPWORK', 'Este Boost otorga un +10 Puntos si se supera a Battle Boss en Deepwork', '3', 'https://i.postimg.cc/G2xfXD5d/Photo-Room-20250209-213612.png')">
+                <img src="https://i.postimg.cc/G2xfXD5d/Photo-Room-20250209-213612.png" alt="Master of Deepwork" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">MASTER OF DEEPWORK</h4>
+                <p class="coins-display">3 H.COINS</p>
+            </div>
 
-        <!-- Master of Reading (Azul) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('MASTER OF READING', 'Este Boost otorga un +10 Puntos si se supera a Battle Boss en Lectura', '3', 'https://i.postimg.cc/vZdLbsGj/Photo-Room-20250209-215846.png')">
-            <img src="https://i.postimg.cc/vZdLbsGj/Photo-Room-20250209-215846.png" alt="Master of Reading" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">MASTER OF READING</h4>
-            <p class="coins-display">3 H.COINS</p>
-        </div>
+            <!-- Master of Chill (Azul) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('MASTER OF CHILL', 'Este Boost otorga un +10 Puntos si se supera a Battle Boss en Meditar', '3', 'https://i.postimg.cc/mDqMrsy9/Photo-Room-20250209-215201.png')">
+                <img src="https://i.postimg.cc/mDqMrsy9/Photo-Room-20250209-215201.png" alt="Master of Chill" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">MASTER OF CHILL</h4>
+                <p class="coins-display">3 H.COINS</p>
+            </div>
 
-        <!-- Super Runner (Azul) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('SUPER RUNNER', 'Si una persona del clan llega a 185k de pasos en un día +10 Puntos, si no se logra -10 Puntos', '5', 'https://i.postimg.cc/y89TCLwK/Photo-Room-20250209-220747.png')">
-            <img src="https://i.postimg.cc/y89TCLwK/Photo-Room-20250209-220747.png" alt="Super Runner" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">SUPER RUNNER</h4>
-            <p class="coins-display">5 H.COINS</p>
-        </div>
+            <!-- Master of Reading (Azul) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('MASTER OF READING', 'Este Boost otorga un +10 Puntos si se supera a Battle Boss en Lectura', '3', 'https://i.postimg.cc/vZdLbsGj/Photo-Room-20250209-215846.png')">
+                <img src="https://i.postimg.cc/vZdLbsGj/Photo-Room-20250209-215846.png" alt="Master of Reading" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">MASTER OF READING</h4>
+                <p class="coins-display">3 H.COINS</p>
+            </div>
 
-        <!-- Super Monk (Azul) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('SUPER MONK', 'Si una persona del clan llega a 5h de meditar en un día +10 Puntos, si no se logra -10 Puntos', '5', 'https://i.postimg.cc/VvdjGgj3/Photo-Room-20250209-221112.png')">
-            <img src="https://i.postimg.cc/VvdjGgj3/Photo-Room-20250209-221112.png" alt="Super Monk" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">SUPER MONK</h4>
-            <p class="coins-display">5 H.COINS</p>
-        </div>
+            <!-- Super Runner (Azul) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('SUPER RUNNER', 'Si una persona del clan llega a 185k de pasos en un día +10 Puntos, si no se logra -10 Puntos', '5', 'https://i.postimg.cc/y89TCLwK/Photo-Room-20250209-220747.png')">
+                <img src="https://i.postimg.cc/y89TCLwK/Photo-Room-20250209-220747.png" alt="Super Runner" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">SUPER RUNNER</h4>
+                <p class="coins-display">5 H.COINS</p>
+            </div>
 
-        <!-- Super Reader (Azul) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('SUPER READER', 'Si una persona del clan llega a 7h de Leer en un día +10 Puntos, si no se logra -10 Puntos', '5', 'https://i.postimg.cc/QxKQc6N7/Photo-Room-20250209-221948.png')">
-            <img src="https://i.postimg.cc/QxKQc6N7/Photo-Room-20250209-221948.png" alt="Super Reader" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">SUPER READER</h4>
-            <p class="coins-display">5 H.COINS</p>
-        </div>
+            <!-- Super Monk (Azul) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('SUPER MONK', 'Si una persona del clan llega a 5h de meditar en un día +10 Puntos, si no se logra -10 Puntos', '5', 'https://i.postimg.cc/VvdjGgj3/Photo-Room-20250209-221112.png')">
+                <img src="https://i.postimg.cc/VvdjGgj3/Photo-Room-20250209-221112.png" alt="Super Monk" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">SUPER MONK</h4>
+                <p class="coins-display">5 H.COINS</p>
+            </div>
 
-        <!-- Super Worker (Azul) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('SUPER WORKER', 'Si una persona del clan llega a 8h de Deepwork en un día +10 Puntos, si no se logra -10 Puntos', '5', 'https://i.postimg.cc/0ygpnprB/Photo-Room-20250209-222256.png')">
-            <img src="https://i.postimg.cc/0ygpnprB/Photo-Room-20250209-222256.png" alt="Super Worker" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">SUPER WORKER</h4>
-            <p class="coins-display">5 H.COINS</p>
-        </div>
+            <!-- Super Reader (Azul) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('SUPER READER', 'Si una persona del clan llega a 7h de Leer en un día +10 Puntos, si no se logra -10 Puntos', '5', 'https://i.postimg.cc/QxKQc6N7/Photo-Room-20250209-221948.png')">
+                <img src="https://i.postimg.cc/QxKQc6N7/Photo-Room-20250209-221948.png" alt="Super Reader" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">SUPER READER</h4>
+                <p class="coins-display">5 H.COINS</p>
+            </div>
 
-        <!-- Hiper Runners Duo (Rojo) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('HIPER RUNNERS DUO', 'Si dos personas del clan llegan a 175k de pasos en un día +2 Multi, si no se logra no se ganan puntos (se necesitan pruebas extra).', '8', 'https://i.postimg.cc/SNxgbxzq/Photo-Room-20250210-075434.png')">
-            <img src="https://i.postimg.cc/SNxgbxzq/Photo-Room-20250210-075434.png" alt="Hiper Runners Duo" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">HIPER RUNNERS DUO</h4>
-            <p class="coins-display">8 H.COINS</p>
+            <!-- Super Worker (Azul) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('SUPER WORKER', 'Si una persona del clan llega a 8h de Deepwork en un día +10 Puntos, si no se logra -10 Puntos', '5', 'https://i.postimg.cc/0ygpnprB/Photo-Room-20250209-222256.png')">
+                <img src="https://i.postimg.cc/0ygpnprB/Photo-Room-20250209-222256.png" alt="Super Worker" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">SUPER WORKER</h4>
+                <p class="coins-display">5 H.COINS</p>
+            </div>
         </div>
+    </div>
 
-        <!-- Hiper Monks Duo (Rojo) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('HIPER MONKS DUO', 'Si dos personas del clan llegan a 5h de meditar en un día +2 Multi, si no se logra no se ganan puntos.', '8', 'https://i.postimg.cc/QtrBGmSP/Photo-Room-20250210-075807.png')">
-            <img src="https://i.postimg.cc/QtrBGmSP/Photo-Room-20250210-075807.png" alt="Hiper Monks Duo" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">HIPER MONKS DUO</h4>
-            <p class="coins-display">8 H.COINS</p>
+    <!-- RUNAS ROJAS -->
+    <div id="red-runes" class="mb-16">
+        <h3 class="text-xl text-center mb-8 lava-text lava-red">RUNAS ROJAS</h3>
+        <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <!-- Hiper Runners Duo (Rojo) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('HIPER RUNNERS DUO', 'Si dos personas del clan llegan a 175k de pasos en un día +2 Multi, si no se logra no se ganan puntos (se necesitan pruebas extra).', '8', 'https://i.postimg.cc/SNxgbxzq/Photo-Room-20250210-075434.png')">
+                <img src="https://i.postimg.cc/SNxgbxzq/Photo-Room-20250210-075434.png" alt="Hiper Runners Duo" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">HIPER RUNNERS DUO</h4>
+                <p class="coins-display">8 H.COINS</p>
+            </div>
+
+            <!-- Hiper Monks Duo (Rojo) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('HIPER MONKS DUO', 'Si dos personas del clan llegan a 5h de meditar en un día +2 Multi, si no se logra no se ganan puntos.', '8', 'https://i.postimg.cc/QtrBGmSP/Photo-Room-20250210-075807.png')">
+                <img src="https://i.postimg.cc/QtrBGmSP/Photo-Room-20250210-075807.png" alt="Hiper Monks Duo" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">HIPER MONKS DUO</h4>
+                <p class="coins-display">8 H.COINS</p>
+            </div>
+
+            <!-- Hiper Readers Duo (Rojo) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('HIPER READERS DUO', 'Si dos personas del clan llegan a 6h de Leer en un día +2 Multi, si no se logra no se ganan puntos.', '8', 'https://i.postimg.cc/nzkrNwTL/Photo-Room-20250210-082021.png')">
+                <img src="https://i.postimg.cc/nzkrNwTL/Photo-Room-20250210-082021.png" alt="Hiper Readers Duo" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">HIPER READERS DUO</h4>
+                <p class="coins-display">8 H.COINS</p>
+            </div>
+
+            <!-- Hiper Working Duo (Rojo) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('HIPER WORKING DUO', 'Si dos personas del clan llegan a 7h de Deepwork en un día +2 Multi, si no se logra no se ganan puntos.', '8', 'https://i.postimg.cc/50bPg66C/Photo-Room-20250210-083006.png')">
+                <img src="https://i.postimg.cc/50bPg66C/Photo-Room-20250210-083006.png" alt="Hiper Working Duo" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">HIPER WORKING DUO</h4>
+                <p class="coins-display">8 H.COINS</p>
+            </div>
+
+            <!-- Take My Hand And Go Up (Rojo) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('TAKE MY HAND AND GO UP', 'Si el top 4 o 3 tienen una racha de 3 derrotas totales, obtienen +2 Multi.', '10', 'https://i.postimg.cc/3Jnpk9Mp/Photo-Room-20250210-084144.png')">
+                <img src="https://i.postimg.cc/3Jnpk9Mp/Photo-Room-20250210-084144.png" alt="Take My Hand And Go Up" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">TAKE MY HAND AND GO UP</h4>
+                <p class="coins-display">10 H.COINS</p>
+            </div>
+
+            <!-- Never Lose Hope (Rojo) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('NEVER LOSE HOPE', 'Si el top 4 queda en una batalla en top 2 o 1, obtiene +2 Multi para la siguiente batalla (si es la última, se aplicará de inmediato un +1 Multi).', '15', 'https://i.postimg.cc/C1p5dnm9/Photo-Room-20250210-084801.png')">
+                <img src="https://i.postimg.cc/C1p5dnm9/Photo-Room-20250210-084801.png" alt="Never Lose Hope" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">NEVER LOSE HOPE</h4>
+                <p class="coins-display">15 H.COINS</p>
+            </div>
         </div>
+    </div>
 
-        <!-- Hiper Readers Duo (Rojo) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('HIPER READERS DUO', 'Si dos personas del clan llegan a 6h de Leer en un día +2 Multi, si no se logra no se ganan puntos.', '8', 'https://i.postimg.cc/nzkrNwTL/Photo-Room-20250210-082021.png')">
-            <img src="https://i.postimg.cc/nzkrNwTL/Photo-Room-20250210-082021.png" alt="Hiper Readers Duo" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">HIPER READERS DUO</h4>
-            <p class="coins-display">8 H.COINS</p>
-        </div>
+    <!-- RUNAS AMARILLAS -->
+    <div id="yellow-runes" class="mb-16">
+        <h3 class="text-xl text-center mb-8 lava-text lava-yellow">RUNAS AMARILLAS</h3>
+        
+        <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <!-- Mr Crab (Amarillo) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('MR CRAB', '10 de los puntos de la batalla se convierten en 1 H.Coin', '8', 'https://i.postimg.cc/wTFdmRTn/Photo-Room-20250210-085019.png')">
+                <img src="https://i.postimg.cc/wTFdmRTn/Photo-Room-20250210-085019.png" alt="Mr Crab" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">MR CRAB</h4>
+                <p class="coins-display">8 H.COINS</p>
+            </div>
 
-        <!-- Hiper Working Duo (Rojo) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('HIPER WORKING DUO', 'Si dos personas del clan llegan a 7h de Deepwork en un día +2 Multi, si no se logra no se ganan puntos.', '8', 'https://i.postimg.cc/50bPg66C/Photo-Room-20250210-083006.png')">
-            <img src="https://i.postimg.cc/50bPg66C/Photo-Room-20250210-083006.png" alt="Hiper Working Duo" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">HIPER WORKING DUO</h4>
-            <p class="coins-display">8 H.COINS</p>
-        </div>
-
-        <!-- Take My Hand And Go Up (Rojo) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('TAKE MY HAND AND GO UP', 'Si el top 4 o 3 tienen una racha de 3 derrotas totales, obtienen +2 Multi.', '10', 'https://i.postimg.cc/3Jnpk9Mp/Photo-Room-20250210-084144.png')">
-            <img src="https://i.postimg.cc/3Jnpk9Mp/Photo-Room-20250210-084144.png" alt="Take My Hand And Go Up" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">TAKE MY HAND AND GO UP</h4>
-            <p class="coins-display">10 H.COINS</p>
-        </div>
-
-        <!-- Never Lose Hope (Rojo) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('NEVER LOSE HOPE', 'Si el top 4 queda en una batalla en top 2 o 1, obtiene +2 Multi para la siguiente batalla (si es la última, se aplicará de inmediato un +1 Multi).', '15', 'https://i.postimg.cc/C1p5dnm9/Photo-Room-20250210-084801.png')">
-            <img src="https://i.postimg.cc/C1p5dnm9/Photo-Room-20250210-084801.png" alt="Never Lose Hope" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">NEVER LOSE HOPE</h4>
-            <p class="coins-display">15 H.COINS</p>
-        </div>
-
-        <!-- Mr Crab (Amarillo) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('MR CRAB', '10 de los puntos de la batalla se convierten en 1 H.Coin', '8', 'https://i.postimg.cc/wTFdmRTn/Photo-Room-20250210-085019.png')">
-            <img src="https://i.postimg.cc/wTFdmRTn/Photo-Room-20250210-085019.png" alt="Mr Crab" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">MR CRAB</h4>
-            <p class="coins-display">8 H.COINS</p>
-        </div>
-
-        <!-- Streak of 2 (Amarillo) -->
-        <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('STREAK OF 2', '2 H.Coins si el top 1 hace una racha de 2 batallas ganadas', '9', 'https://i.postimg.cc/0jRVWvPL/Photo-Room-20250210-085429.png')">
-            <img src="https://i.postimg.cc/0jRVWvPL/Photo-Room-20250210-085429.png" alt="Streak of 2" class="h-32 w-full object-contain rounded mb-4">
-            <h4 class="text-sm mb-2">STREAK OF 2</h4>
-            <p class="coins-display">9 H.COINS</p>
+            <!-- Streak of 2 (Amarillo) -->
+            <div class="rune-card p-4 rounded cursor-pointer" onclick="showPopup('STREAK OF 2', '2 H.Coins si el top 1 hace una racha de 2 batallas ganadas', '9', 'https://i.postimg.cc/0jRVWvPL/Photo-Room-20250210-085429.png')">
+                <img src="https://i.postimg.cc/0jRVWvPL/Photo-Room-20250210-085429.png" alt="Streak of 2" class="h-32 w-full object-contain rounded mb-4">
+                <h4 class="text-sm mb-2">STREAK OF 2</h4>
+                <p class="coins-display">9 H.COINS</p>
+            </div>
         </div>
     </div>
 </section>
+
                  
 <script>
 // Parallax suave
@@ -1631,10 +2400,11 @@ function fadeInOnScroll() {
 window.addEventListener('scroll', fadeInOnScroll);
 window.addEventListener('load', fadeInOnScroll);
 
-// Funciones del popup
+// Reemplaza tus funciones actuales showPopup y closePopup con estas:
 function showPopup(runeName, runeDescription, runePrice, runeImage) {
     const popup = document.getElementById('runePopup');
-    popup.style.opacity = '0';
+    const popupContent = popup.querySelector('.popup-content');
+    
     popup.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     
@@ -1650,25 +2420,68 @@ function showPopup(runeName, runeDescription, runePrice, runeImage) {
         details.querySelector('img').style.display = 'none';
     }
 
-    setTimeout(() => {
-        popup.style.opacity = '1';
-    }, 10);
+    // Comprobar disponibilidad
+    const isAvailable = runasDisponibilidad[runeName] !== false; // Si no está definido, asumimos que está disponible
+    const availabilityStatus = document.getElementById('availability-status');
+    const statusOrb = document.getElementById('status-orb');
+    const storeButton = document.getElementById('store-button');
+    
+    if (isAvailable) {
+        availabilityStatus.textContent = "Disponible";
+        availabilityStatus.className = "available";
+        statusOrb.className = "status-orb available-orb";
+        storeButton.style.display = "inline-block";
+    } else {
+        availabilityStatus.textContent = "No disponible en tienda";
+        availabilityStatus.className = "unavailable";
+        statusOrb.className = "status-orb unavailable-orb";
+        storeButton.style.display = "none";
+    }
+
+    // Animación con anime.js
+    anime.timeline()
+        .add({
+            targets: popup,
+            opacity: [0, 1],
+            duration: 400,
+            easing: 'easeOutQuad'
+        })
+        .add({
+            targets: popupContent,
+            scale: [0.9, 1],
+            opacity: [0.5, 1],
+            translateY: [20, 0],
+            duration: 500,
+            easing: 'easeOutElastic(1, .6)'
+        }, '-=300');
 }
+
 
 function closePopup() {
     const popup = document.getElementById('runePopup');
-    popup.style.opacity = '0';
-    setTimeout(() => {
-        popup.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }, 300);
+    const popupContent = popup.querySelector('.popup-content');
+    
+    anime.timeline()
+        .add({
+            targets: popupContent,
+            scale: [1, 0.9],
+            opacity: [1, 0],
+            translateY: [0, 20],
+            duration: 300,
+            easing: 'easeInQuad'
+        })
+        .add({
+            targets: popup,
+            opacity: [1, 0],
+            duration: 300,
+            easing: 'easeInQuad',
+            complete: function() {
+                popup.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }, '-=200');
 }
 
-document.getElementById('runePopup').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closePopup();
-    }
-});
 
 // Aplicar la clase fade-in a los elementos que quieres animar
 document.addEventListener('DOMContentLoaded', function() {
@@ -1714,35 +2527,36 @@ document.getElementById('runePopup').addEventListener('click', function(e) {
         progressBar.style.height = `${progress}%`;
 
         // Puntos de cambio de color (ajusta estos valores según tu contenido)
-        const heroSection = document.querySelector('.hero').offsetTop;
-        const clansSection = document.querySelector('#clans').offsetTop;
-        const catalogSection = document.querySelector('#catalog').offsetTop;
-        const blueRunesSection = document.querySelector('.text-blue-400')?.offsetTop || catalogSection;
-        const redRunesSection = document.querySelector('.text-red-400')?.offsetTop;
-        const yellowRunesSection = document.querySelector('.text-yellow-400')?.offsetTop;
+        const heroSection = document.querySelector('.hero')?.offsetTop || 0;
+        const catalogSection = document.querySelector('#catalog')?.offsetTop || 0;
+        
+        // Nuevas secciones para las categorías de runas
+        const blueRunesSection = document.querySelector('#blue-runes')?.offsetTop || catalogSection;
+        const redRunesSection = document.querySelector('#red-runes')?.offsetTop || catalogSection;
+        const yellowRunesSection = document.querySelector('#yellow-runes')?.offsetTop || catalogSection;
 
         const currentScroll = window.scrollY + (windowHeight / 3);
 
         // Actualiza los colores basado en la posición del scroll
-        if (currentScroll < clansSection) {
+        if (currentScroll < catalogSection) {
             // Sección intro - Celeste claro
             progressBar.style.background = '#a5d8ff';
             progressBar.style.boxShadow = '0 0 10px rgba(165, 216, 255, 0.5)';
             progressBar.style.animation = 'none';
         } 
-        else if (currentScroll < catalogSection) {
-            // Sección clanes - Celeste claro con efecto brillante
+        else {
+            // Sección catálogo - Celeste claro con efecto brillante
             progressBar.style.background = 'linear-gradient(45deg, #a5d8ff, #d0ebff, #a5d8ff)';
             progressBar.style.backgroundSize = '200% 200%';
             progressBar.style.animation = 'fireAnimation 3s ease infinite';
             progressBar.style.boxShadow = '0 0 15px rgba(165, 216, 255, 0.6)';
         }
-         
     });
 
     // Dispara el evento scroll al cargar para inicializar la barra
     window.dispatchEvent(new Event('scroll'));
 });
+
 
 </script>
 
@@ -2028,7 +2842,486 @@ function closeItemPopup() {
     });
 </script>
 
+<script> 
+    // Añade este script justo antes del cierre de </body>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    
+    // Efecto de escala para los botones
+    const buttons = document.querySelectorAll('.animated-button, .button-boosts');
+    
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            anime({
+                targets: button,
+                scale: 1.05,
+                boxShadow: '0 10px 25px rgba(93, 92, 222, 0.6)',
+                duration: 300,
+                easing: 'easeOutElastic(1, .6)'
+            });
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            anime({
+                targets: button,
+                scale: 1,
+                boxShadow: '0 0 0 rgba(93, 92, 222, 0)',
+                duration: 500,
+                easing: 'easeOutElastic(1, .6)'
+            });
+        });
+    });
+});
 
+
+// Añade este código justo después del script anterior
+document.addEventListener('DOMContentLoaded', function() {
+    // Animación para las cartas de runas cuando aparecen en pantalla
+    const runeCards = document.querySelectorAll('.rune-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    anime({
+                        targets: entry.target,
+                        opacity: [0, 1],
+                        translateY: [50, 0],
+                        scale: [0.8, 1],
+                        duration: 800,
+                        easing: 'easeOutElastic(1, .6)'
+                    });
+                    observer.unobserve(entry.target);
+                }, index * 100); // Efecto escalonado
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    runeCards.forEach(card => {
+        card.style.opacity = "0"; // Ocultar inicialmente
+        observer.observe(card);
+    });
+});
+
+
+// Añade este código justo después de tus otros scripts
+document.addEventListener('DOMContentLoaded', function() {
+    const titleElement = document.querySelector('.title-big');
+    
+    if (titleElement && window.motion) {
+        // Primero resetear cualquier animación existente
+        titleElement.style.animation = 'none';
+        
+        // Separar cada letra en un span
+        const text = titleElement.textContent;
+        titleElement.textContent = '';
+        
+        for (let i = 0; i < text.length; i++) {
+            const span = document.createElement('span');
+            span.textContent = text[i] === ' ' ? ' ' : text[i];
+            span.style.display = 'inline-block';
+            span.style.opacity = '0';
+            span.style.transform = 'translateY(20px)';
+            titleElement.appendChild(span);
+        }
+        
+        // Animar cada letra
+        const letters = titleElement.querySelectorAll('span');
+        letters.forEach((letter, index) => {
+            motion.animate(letter, {
+                opacity: [0, 1],
+                transform: ['translateY(20px)', 'translateY(0px)']
+            }, {
+                delay: 0.1 + index * 0.05,
+                duration: 0.6,
+                easing: [0.25, 0.1, 0.25, 1] // ease
+            });
+        });
+    }
+});
+
+
+// Añade este código junto con tus otros scripts
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.rune-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
+            
+            const rotateX = (y - 0.5) * 10; // -5 a 5 grados
+            const rotateY = (0.5 - x) * 10; // -5 a 5 grados
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        });
+    });
+});
+
+// Añade este código justo después del script anterior
+document.addEventListener('DOMContentLoaded', function() {
+    // Animación para las cartas de runas cuando aparecen en pantalla
+    const runeCards = document.querySelectorAll('.rune-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    anime({
+                        targets: entry.target,
+                        opacity: [0, 1],
+                        translateY: [50, 0],
+                        scale: [0.8, 1],
+                        duration: 800,
+                        easing: 'easeOutElastic(1, .6)'
+                    });
+                    observer.unobserve(entry.target);
+                }, index * 100); // Efecto escalonado
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    runeCards.forEach(card => {
+        card.style.opacity = "0"; // Ocultar inicialmente
+        observer.observe(card);
+    });
+});
+
+// Añade este script justo antes del cierre de </body>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Efecto de escala para los botones
+    const buttons = document.querySelectorAll('.animated-button, .button-boosts, .store-button');
+    
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            anime({
+                targets: button,
+                scale: 1.05,
+                boxShadow: '0 10px 25px rgba(93, 92, 222, 0.6)',
+                duration: 300,
+                easing: 'easeOutElastic(1, .6)'
+            });
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            anime({
+                targets: button,
+                scale: 1,
+                boxShadow: '0 0 0 rgba(93, 92, 222, 0)',
+                duration: 500,
+                easing: 'easeOutElastic(1, .6)'
+            });
+        });
+    });
+});
+
+</script>
+
+<!-- SCRIPTS PARA EL OVERLAY DE MANTENIMIENTO -->
+<script>
+// AÑADE SCRIPTS DE PARTICLES.JS
+document.addEventListener('DOMContentLoaded', function() {
+    // Cargar la librería particles.js dinámicamente
+    const particlesScript = document.createElement('script');
+    particlesScript.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
+    particlesScript.onload = function() {
+        // Configurar particles.js cuando se haya cargado
+        configureParticles();
+    };
+    document.head.appendChild(particlesScript);
+    
+    // Configuración para particles.js
+    function configureParticles() {
+        if (window.particlesJS) {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 50,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ffffff"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 1,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": true,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.6
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+    }
+
+    // Mensajes humorísticos actualizados
+    const humorMessages = [
+        "Buffeando las runas gracias a Antares...",
+        "Explotando programadores...",
+        "Intentando no quemar el servidor OTRA VEZ...",
+        "Peleándome con el gato del vecino...",
+        "Amenazando a las runas para que funcionen mejor...",
+        "Haciendo todo más bonito...",
+        "Dándole de comer a los hamsters que hacen funcionar el servidor...",
+        "¿Alguien enserio lee esto?",
+        "Si lees esto dile a MortALEdo que es un payaso...",
+        "Sufriendo por vosotros...",
+        "Si tienes ideas para el diseño, Dios sabe que las necesitamos...",
+        "Creando un mejor Heroes...",
+        "Estamos haciendo magia, pero sin la varita porque nos la recortaron del presupuesto...",
+        "Leyendo correos de mejoras...",
+        "Rezando para que esta vez funcione a la primera...",
+        "Burnout del programador al 95%...",
+        "#denleascensoalprogramador...",
+        "Acabo de explicarle a mi gato la estructura de la base de datos. Bostezó y se fue. Crítico duro.",
+        "¿Las runas rojas deberían ser más rojas? Llevamos 4 horas discutiéndolo...",
+        "Metiendo nuevo contenido...",
+        "Calibrando los niveles de epicidad al máximo...",
+        "¿Esto lo escribe MortALEdo o ALEXtón?, nunca lo sabrás",
+        "Preparándome el quinto café...",
+        "Enviando pensamientos positivos al servidor...",
+        "Metiendo sorpresillas...",
+        "Si lees esto, mándanos pizza. Es una emergencia...",
+        "Mis ojeras tienen más contenido que la página web...",
+        "Dándole amor a esta vaina...",
+        "Derrocando la dictadura de Ale con un ejército de perros bomba...",
+        "¿Runas mágicas? Más bien esto es la 'ruina' mágica para mi salud mental...",
+        "Mi código es como mi vida amorosa: confuso, inestable y lleno de errores inexplicables...",
+        "Acabo de decirle a mi madre que trabajo en 'ciberseguridad'. Se cree que soy un hacker de la TIA.",
+        "Os quiero.",
+        "El servidor ha desarrollado sentimientos. Por desgracia, todos son de odio hacia mí...",
+        "Mi psicóloga dice que debería dejar de personificar objetos... El código y yo estamos MUY ofendidos por esto.",
+        "Estamos en ese punto donde ya no sabemos si estamos desarrollando código o practicando brujería...",
+        "Probando este código como quien prueba si una silla eléctrica funciona: con mucho miedo y desde lejos...",
+        "Si cada bug fuera un euro, ya me estaría jubilando en una isla privada...",
+        "Descubriendo que mi código es como el vino: empeora con el tiempo y me da dolor de cabeza.",
+        "La base de datos acaba de enviarme un mensaje: 'bro, just leave me alone'.",
+        "Acabo de pedirle un abrazo al compilador. Me rechazó con 47 errores diferentes.",
+        "Hemos intentado solucionar este problema con inteligencia... ahora estamos probando con estupidez, a ver si funciona mejor.",
+        "Cada vez que alguien dice 'debería ser fácil', un programador pierde sus ganas de vivir.",
+        "Acabo de escribir 'por favor funciona' al final de cada línea de código... Esperemos y funcione",
+        "No son bugs, son 'características sorpresa'...",
+        "He pegado tantas veces mi cara contra el teclado que ahora mi contraseña es 'fhqwhgads'."
+    ];
+
+    // Función para inicializar el texto de lava
+    function setupLavaText() {
+        // Agregar el texto como atributo de datos para usarlo en pseudo-elementos
+        const lavaText = document.querySelector('.lava-text');
+        lavaText.setAttribute('data-text', lavaText.textContent);
+    }
+
+    // Función mejorada para mostrar mensajes flotantes
+function setupFloatingMessages() {
+    const messageContainer = document.querySelector('.floating-message');
+    let currentIndex = 0;
+    
+    function showNextMessage() {
+        // Primero quitamos la clase visible
+        messageContainer.classList.remove('visible');
+        messageContainer.classList.add('fading');
+        
+        // Esperamos a que termine la animación de desvanecimiento
+        setTimeout(() => {
+            // Actualizamos el contenido del mensaje
+            messageContainer.textContent = humorMessages[currentIndex];
+            
+            // Quitamos la clase fading
+            messageContainer.classList.remove('fading');
+            
+            // Forzamos un reflow antes de añadir la clase visible
+            void messageContainer.offsetWidth;
+            
+            // Añadimos la clase visible
+            messageContainer.classList.add('visible');
+            
+            // Avanzamos al siguiente mensaje
+            currentIndex = (currentIndex + 1) % humorMessages.length;
+            
+            // Programamos el siguiente cambio de mensaje
+            setTimeout(showNextMessage, 6000); // Un poco más de tiempo para leer
+        }, 1200);
+    }
+
+    // Iniciamos el ciclo de mensajes
+    // Hacemos visible el primer mensaje inmediatamente
+    messageContainer.textContent = humorMessages[0];
+    messageContainer.classList.add('visible');
+    currentIndex = 1;
+    
+    // Programamos el cambio al siguiente mensaje
+    setTimeout(showNextMessage, 6000);
+}
+
+    // Función para aplicar efectos y animaciones adicionales
+    function setupAnimations() {
+        // Efecto de brillo aleatorio para el botón de email
+        const emailButton = document.querySelector('.email-button');
+        
+        // Efecto aleatorio de resplandor en el botón
+        function randomGlowEffect() {
+            const duration = Math.random() * 1000 + 500;
+            emailButton.style.boxShadow = `0 8px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, ${Math.random() * 0.2 + 0.1})`;
+            
+            setTimeout(() => {
+                emailButton.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 rgba(255, 255, 255, 0)';
+                
+                // Programar próximo resplandor
+                setTimeout(randomGlowEffect, Math.random() * 3000 + 1000);
+            }, duration);
+        }
+        
+        // Iniciar efectos aleatorios
+        setTimeout(randomGlowEffect, 2000);
+        
+        // Animación para el texto de lava
+        const lavaText = document.querySelector('.lava-text');
+        lavaText.style.transform = 'translateZ(0)'; // Forzar aceleración por hardware
+        
+        // Animación para los elementos con clase .lava-text
+        function animateLavaText() {
+            const amplitude = 2; // Amplitud del movimiento
+            const now = Date.now() / 1000;
+            const offsetY = Math.sin(now) * amplitude;
+            
+            lavaText.style.transform = `translateY(${offsetY}px)`;
+            
+            requestAnimationFrame(animateLavaText);
+        }
+        
+        // Iniciar animación
+        animateLavaText();
+    }
+
+    // Inicializa todo cuando se carga la página
+    // Configurar el texto de lava
+    setupLavaText();
+    
+    // Configurar los mensajes flotantes
+    setupFloatingMessages();
+    
+    // Configurar animaciones adicionales
+    setupAnimations();
+    
+    // Deshabilitar el scroll de la página
+    document.body.style.overflow = 'hidden';
+    
+    // Añadir efecto de paralaje suave al mover el ratón
+    document.addEventListener('mousemove', function(e) {
+        const overlay = document.getElementById('maintenance-overlay');
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        // Calcular la posición relativa del ratón
+        const mouseX = e.clientX / width - 0.5;
+        const mouseY = e.clientY / height - 0.5;
+        
+        // Aplicar un ligero efecto de paralaje a los elementos
+        const lavaText = document.querySelector('.lava-text');
+        const messageContainer = document.querySelector('.messages-container');
+        const emailButton = document.querySelector('.email-button');
+        
+        // Aplicar transformaciones con diferentes intensidades
+        lavaText.style.transform = `translate3d(${mouseX * -20}px, ${mouseY * -20}px, 0) scale(1.02)`;
+        messageContainer.style.transform = `translate3d(${mouseX * -10}px, ${mouseY * -10}px, 0)`;
+        emailButton.style.transform = `translate3d(${mouseX * -5}px, ${mouseY * -5}px, 0)`;
+    });
+});
+
+</script>
 
 
 </body>
